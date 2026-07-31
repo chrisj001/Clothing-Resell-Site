@@ -1,0 +1,138 @@
+.header {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-gray);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+}
+
+.logo a {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-teal-dark);
+}
+
+.navLinks {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .navLinks {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+.navLinks a {
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navLinks a:hover {
+  color: var(--color-teal);
+}
+
+.saleLink {
+  color: #d9534f !important;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-light-gray);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-gray);
+}
+
+.searchBar input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.searchBar button {
+  background: transparent;
+  color: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconLink {
+  font-size: 1.25rem;
+}
+
+.main {
+  min-height: calc(100vh - 80px - 100px); /* Adjust based on header and footer height */
+}
+
+.footer {
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-gray);
+  padding: 2rem 0;
+  margin-top: 4rem;
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .footerContent {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footerLinks {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.footerLinks a {
+  transition: color 0.2s;
+}
+
+.footerLinks a:hover {
+  color: var(--color-teal);
+}
+
+.socialMedia {
+  display: flex;
+  gap: 1rem;
+  font-size: 1.25rem;
+}
+
+.socialMedia a {
+  filter: grayscale(100%);
+  transition: filter 0.2s, transform 0.2s;
+}
+
+.socialMedia a:hover {
+  filter: grayscale(0%);
+  transform: scale(1.1);
+}

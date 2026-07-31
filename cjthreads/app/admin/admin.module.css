@@ -1,0 +1,40 @@
+/* Sharing the dashboard styles for the admin section for simplicity in mock phase */
+@import '../dashboard/dashboard.module.css';
+
+.adminContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 4rem 0;
+}
+
+@media (min-width: 768px) {
+  .adminContainer {
+    flex-direction: row;
+  }
+}
+
+.actionButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-teal);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.statusActive {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusPending {
+  background-color: #fff3cd;
+  color: #856404;
+}
