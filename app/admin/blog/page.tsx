@@ -173,7 +173,7 @@ export default function AdminBlogPage() {
                   value={title} 
                   onChange={handleTitleChange} 
                   required 
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }} 
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }} 
                   placeholder="e.g. Top 10 Vintage Finds"
                 />
               </div>
@@ -186,7 +186,7 @@ export default function AdminBlogPage() {
                     value={slug} 
                     onChange={(e) => setSlug(e.target.value)} 
                     required 
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }} 
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }} 
                   />
                 </div>
                 <div style={{ flex: 1 }}>
@@ -195,7 +195,7 @@ export default function AdminBlogPage() {
                     type="text" 
                     value={imageUrl} 
                     onChange={(e) => setImageUrl(e.target.value)} 
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }} 
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }} 
                     placeholder="https://example.com/image.jpg"
                   />
                 </div>
@@ -207,7 +207,7 @@ export default function AdminBlogPage() {
                   value={content} 
                   onChange={(e) => setContent(e.target.value)} 
                   required 
-                  style={{ width: '100%', padding: '1rem', borderRadius: '4px', border: '1px solid #cbd5e1', minHeight: '300px', fontFamily: 'monospace' }} 
+                  style={{ width: '100%', padding: '1rem', borderRadius: '4px', border: '1px solid #d1d5db', minHeight: '300px', fontFamily: 'monospace' }} 
                   placeholder="Write your article here..."
                 />
               </div>
@@ -246,7 +246,7 @@ export default function AdminBlogPage() {
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <button 
                       onClick={() => editPost(post)}
-                      style={{ padding: '0.5rem 1rem', backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}
+                      style={{ padding: '0.5rem 1rem', backgroundColor: '#f1f5f9', border: '1px solid #d1d5db', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}
                     >
                       Edit
                     </button>

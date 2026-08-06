@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 import { webhookRateLimit, getClientIp } from '../../../../lib/rate-limit';
+import { resend } from '../../../../lib/resend';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2026-06-24.dahlia' as any,
@@ -132,6 +133,55 @@ export async function POST(req: Request) {
       }
 
       console.log(`Successfully processed order for: ${sessionOrIntent.id}`);
+
+      // Send Order Receipt Email
+      if (resend && (guestEmail || userId)) {
+        const emailToUse = guestEmail || sessionOrIntent.customer_details?.email;
+        if (emailToUse) {
+          const itemsHtml = items.map((item: any) => `
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.name} ${item.size ? `(Size: ${item.size})` : ''}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity || 1}</td>
+              <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">£${item.price}</td>
+            </tr>
+          `).join('');
+
+          await resend.emails.send({
+            from: 'Acme <onboarding@resend.dev>', // Replace with your domain later
+            to: [emailToUse],
+            subject: `Your Receipt for Order #${order.id.substring(0, 8).toUpperCase()}`,
+            html: `
+              <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+                <h1 style="color: #0f172a;">Thank you for your order!</h1>
+                <p>We've received your order and are getting it ready for shipment.</p>
+                
+                <h3 style="margin-top: 24px; border-bottom: 2px solid #0f172a; padding-bottom: 8px;">Order Summary</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr>
+                      <th style="text-align: left; padding: 10px; border-bottom: 2px solid #eee;">Item</th>
+                      <th style="text-align: center; padding: 10px; border-bottom: 2px solid #eee;">Qty</th>
+                      <th style="text-align: right; padding: 10px; border-bottom: 2px solid #eee;">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${itemsHtml}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="2" style="text-align: right; padding: 10px; font-weight: bold;">Total Paid:</td>
+                      <td style="text-align: right; padding: 10px; font-weight: bold;">£${order.total_amount}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+                
+                <p style="margin-top: 24px; color: #64748b; font-size: 14px;">If you have any questions, please reply to this email.</p>
+              </div>
+            `,
+          }).catch(e => console.error('Failed to send receipt:', e));
+        }
+      }
+
     } catch (err: any) {
       console.error(`Error processing webhook fulfillment: ${err.message}`);
       return NextResponse.json({ error: 'Fulfillment failed' }, { status: 500 });

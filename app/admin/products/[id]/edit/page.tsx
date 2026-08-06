@@ -218,7 +218,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 onClick={() => setIsSingleItem(true)} 
                 style={{ 
                   flex: 1, padding: '1rem', 
-                  border: isSingleItem ? '2px solid #0f172a' : '1px solid #cbd5e1', 
+                  border: isSingleItem ? '2px solid #0f172a' : '1px solid #d1d5db', 
                   borderRadius: '4px', 
                   backgroundColor: isSingleItem ? '#f8fafc' : 'white', 
                   fontWeight: isSingleItem ? 600 : 400,
@@ -232,7 +232,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 onClick={() => setIsSingleItem(false)} 
                 style={{ 
                   flex: 1, padding: '1rem', 
-                  border: !isSingleItem ? '2px solid #0f172a' : '1px solid #cbd5e1', 
+                  border: !isSingleItem ? '2px solid #0f172a' : '1px solid #d1d5db', 
                   borderRadius: '4px', 
                   backgroundColor: !isSingleItem ? '#f8fafc' : 'white', 
                   fontWeight: !isSingleItem ? 600 : 400,

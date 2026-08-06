@@ -149,7 +149,7 @@ export default function AbandonedCartsPage() {
 
           <div style={{ marginTop: '2rem' }}>
             {carts.length === 0 ? (
-              <div style={{ padding: '3rem', backgroundColor: 'white', borderRadius: '8px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
+              <div style={{ padding: '3rem', backgroundColor: 'white', borderRadius: '8px', textAlign: 'center', border: '1px dashed #d1d5db' }}>
                 <h2 style={{ color: '#1e293b', marginBottom: '1rem' }}>No Abandoned Carts</h2>
                 <p style={{ color: '#475569' }}>You're all caught up! There are no active carts waiting.</p>
               </div>

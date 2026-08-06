@@ -307,7 +307,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                   marginTop: '0.5rem',
                   padding: '0.75rem',
                   backgroundColor: '#f8fafc',
-                  border: '1px solid #cbd5e1',
+                  border: '1px solid #d1d5db',
                   borderRadius: '6px',
                   color: '#0f172a',
                   fontWeight: 600,
@@ -341,7 +341,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                       onClick={() => setSelectedSize(size)}
                       style={{
                         padding: '0.75rem 1.5rem',
-                        border: selectedSize === size ? '2px solid #0f172a' : '1px solid #cbd5e1',
+                        border: selectedSize === size ? '2px solid #0f172a' : '1px solid #d1d5db',
                         backgroundColor: isOutOfStock ? '#f1f5f9' : (selectedSize === size ? '#f8fafc' : 'white'),
                         color: isOutOfStock ? '#94a3b8' : '#0f172a',
                         fontWeight: selectedSize === size ? 600 : 400,
@@ -352,7 +352,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                     >
                       {size}
                       {isOutOfStock && (
-                        <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '1px', backgroundColor: '#cbd5e1', transform: 'rotate(-25deg)' }}></div>
+                        <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '1px', backgroundColor: '#d1d5db', transform: 'rotate(-25deg)' }}></div>
                       )}
                     </button>
                   );
@@ -471,7 +471,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                     onChange={(e) => setUserPit(e.target.value)}
                     required
                     placeholder="e.g. 22.5"
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid #d1d5db' }}
                   />
                   <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.25rem' }}>Item is {product.pit_to_pit}</div>
                 </div>
@@ -484,7 +484,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                     onChange={(e) => setUserLength(e.target.value)}
                     required
                     placeholder="e.g. 29.0"
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid #d1d5db' }}
                   />
                   <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.25rem' }}>Item is {product.length}</div>
                 </div>
@@ -522,7 +522,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               onClick={() => { setIsFitModalOpen(false); setFitResult(null); }}
               style={{ 
                 width: '100%', padding: '0.75rem', marginTop: '1.5rem',
-                background: 'none', border: '1px solid #cbd5e1', borderRadius: '6px',
+                background: 'none', border: '1px solid #d1d5db', borderRadius: '6px',
                 cursor: 'pointer', fontWeight: 500, color: '#64748b'
               }}
             >

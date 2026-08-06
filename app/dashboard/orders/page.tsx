@@ -125,14 +125,14 @@ export default function CustomerOrders() {
           </div>
 
           {orders.length === 0 ? (
-            <div style={{ padding: '3rem', backgroundColor: '#cbd5e1', borderRadius: '8px', textAlign: 'center', border: '1px dashed #94a3b8' }}>
+            <div style={{ padding: '3rem', backgroundColor: '#d1d5db', borderRadius: '8px', textAlign: 'center', border: '1px dashed #94a3b8' }}>
               <h3 style={{ color: '#1e293b', marginBottom: '1rem' }}>No Orders Yet</h3>
               <p style={{ color: '#475569' }}>You haven't placed any orders yet. Start shopping!</p>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {orders.map(order => (
-                <div key={order.id} style={{ padding: '1.5rem', backgroundColor: '#cbd5e1', borderRadius: '8px', border: '1px solid #94a3b8', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', color: '#1e293b' }}>
+                <div key={order.id} style={{ padding: '1.5rem', backgroundColor: '#d1d5db', borderRadius: '8px', border: '1px solid #94a3b8', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', color: '#1e293b' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #94a3b8', paddingBottom: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <strong style={{ fontSize: '1.1rem' }}>Order #{order.order_number || order.id.split('-')[0]}</strong>
@@ -177,7 +177,7 @@ export default function CustomerOrders() {
                                   onClick={() => openReviewModal(item.id, item.name)}
                                   style={{
                                     backgroundColor: 'white',
-                                    border: '1px solid #cbd5e1',
+                                    border: '1px solid #d1d5db',
                                     padding: '0.25rem 0.5rem',
                                     borderRadius: '4px',
                                     fontSize: '0.8rem',
@@ -237,7 +237,7 @@ export default function CustomerOrders() {
                   <select 
                     value={rating} 
                     onChange={(e) => setRating(Number(e.target.value))}
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }}
                   >
                     <option value={5}>⭐️⭐️⭐️⭐️⭐️ (5) Excellent</option>
                     <option value={4}>⭐️⭐️⭐️⭐️ (4) Good</option>
@@ -252,7 +252,7 @@ export default function CustomerOrders() {
                   <textarea 
                     value={comment} 
                     onChange={(e) => setComment(e.target.value)}
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', minHeight: '80px' }}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db', minHeight: '80px' }}
                     placeholder="What did you think of the fit and quality?"
                   />
                 </div>

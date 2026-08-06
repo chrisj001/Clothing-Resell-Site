@@ -83,7 +83,7 @@ export default function ForgotPasswordPage() {
                 />
               </div>
               
-              <div className={styles.formGroup} style={{ backgroundColor: '#f1f5f9', padding: '1rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
+              <div className={styles.formGroup} style={{ backgroundColor: '#f1f5f9', padding: '1rem', borderRadius: '4px', border: '1px solid #d1d5db' }}>
                 <label className={styles.label} style={{ color: '#0f172a', fontWeight: 600 }}>Security Check</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <span style={{ fontSize: '1.25rem', fontWeight: 700, whiteSpace: 'nowrap' }}>

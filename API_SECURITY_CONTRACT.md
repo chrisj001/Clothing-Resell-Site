@@ -69,6 +69,8 @@ export async function POST(req: Request) {
 |---|---|---|
 | `/api/webhooks/stripe` | No (uses Stripe signature) | Stripe sends webhooks server-to-server with HMAC signature verification |
 | `/api/orders/success` | No (rate-limited) | Guest checkout users need to see their order number; rate limiting prevents brute-force |
+| `/api/checkout` | No (rate-limited) | Guest checkout is supported; requests must be strictly rate-limited and validate guest email if session is absent |
+| `/api/create-payment-intent` | No (rate-limited) | Guest checkout is supported; requests must be strictly rate-limited and validate guest email if session is absent |
 
 ## Checklist for New API Routes
 

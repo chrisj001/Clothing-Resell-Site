@@ -307,7 +307,7 @@ export default function AdminUsersPage() {
 
             {activeTab === 'pics' && (
               pics.length === 0 ? (
-                <div style={{ padding: '3rem', backgroundColor: 'white', borderRadius: '8px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
+                <div style={{ padding: '3rem', backgroundColor: 'white', borderRadius: '8px', textAlign: 'center', border: '1px dashed #d1d5db' }}>
                   <h2 style={{ color: '#1e293b', marginBottom: '1rem' }}>No Submissions Yet</h2>
                   <p style={{ color: '#475569' }}>When customers submit fit pics, they'll appear here for your review.</p>
                 </div>
@@ -344,7 +344,7 @@ export default function AdminUsersPage() {
             
             {activeTab === 'products' && (
               pendingProducts.length === 0 ? (
-                <div style={{ padding: '3rem', backgroundColor: 'white', borderRadius: '8px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
+                <div style={{ padding: '3rem', backgroundColor: 'white', borderRadius: '8px', textAlign: 'center', border: '1px dashed #d1d5db' }}>
                   <h2 style={{ color: '#1e293b', marginBottom: '1rem' }}>No Pending Products</h2>
                   <p style={{ color: '#475569' }}>When sellers submit products, they'll appear here for your review.</p>
                 </div>

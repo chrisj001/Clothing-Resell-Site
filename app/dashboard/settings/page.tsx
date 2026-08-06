@@ -106,7 +106,7 @@ export default function CustomerSettings() {
             <p>Update your personal information and preferences.</p>
           </div>
 
-          <div style={{ maxWidth: '600px', backgroundColor: '#cbd5e1', padding: '2rem', borderRadius: '8px', border: '1px solid #94a3b8', color: '#1e293b' }}>
+          <div style={{ maxWidth: '600px', backgroundColor: '#d1d5db', padding: '2rem', borderRadius: '8px', border: '1px solid #94a3b8', color: '#1e293b' }}>
             {message && (
               <div style={{ padding: '1rem', backgroundColor: message.includes('Error') ? '#fee2e2' : '#dcfce3', color: message.includes('Error') ? '#b91c1c' : '#166534', borderRadius: '4px', marginBottom: '1.5rem' }}>
                 {message}
@@ -120,7 +120,7 @@ export default function CustomerSettings() {
                   type="password" 
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', fontSize: '1rem' }}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db', fontSize: '1rem' }}
                   placeholder="Enter current password"
                 />
               </div>
@@ -131,7 +131,7 @@ export default function CustomerSettings() {
                   type="password" 
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', fontSize: '1rem' }}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db', fontSize: '1rem' }}
                   placeholder="Enter new password"
                   minLength={6}
                 />

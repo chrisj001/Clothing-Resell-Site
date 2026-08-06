@@ -329,7 +329,7 @@ export default function AnalyticsDashboard() {
               <div className={styles.statValue} style={{ color: '#9a3412' }}>{tierCounts.bronze}</div>
               <div className={styles.statLabel}>Bronze Members</div>
             </div>
-            <div className={styles.statCard} style={{ borderTop: '4px solid #cbd5e1' }}>
+            <div className={styles.statCard} style={{ borderTop: '4px solid #d1d5db' }}>
               <div className={styles.statValue} style={{ color: '#475569' }}>{tierCounts.silver}</div>
               <div className={styles.statLabel}>Silver Members</div>
             </div>

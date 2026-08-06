@@ -104,12 +104,12 @@ export function NewsletterPopup() {
       {status === "success" ? (
         <div style={{ textAlign: 'center', padding: '1rem 0' }}>
           <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#fde047' }}>You're in! 🎉</h3>
-          <p style={{ color: '#cbd5e1' }}>Use code <strong>WELCOME10</strong> at checkout for 10% off your first order.</p>
+          <p style={{ color: '#d1d5db' }}>Use code <strong>WELCOME10</strong> at checkout for 10% off your first order.</p>
         </div>
       ) : (
         <>
           <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#fde047' }}>Get 10% Off</h3>
-          <p style={{ color: '#cbd5e1', marginBottom: '1.5rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
+          <p style={{ color: '#d1d5db', marginBottom: '1.5rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
             Join our newsletter for exclusive vintage drops, style guides, and 10% off your first purchase.
           </p>
           

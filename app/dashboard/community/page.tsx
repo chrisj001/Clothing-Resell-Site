@@ -119,7 +119,7 @@ export default function DashboardCommunityPage() {
             </Link>
           </div>
 
-          <div style={{ backgroundColor: '#cbd5e1', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', maxWidth: '600px' }}>
+          <div style={{ backgroundColor: '#d1d5db', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', maxWidth: '600px' }}>
             {success ? (
               <div style={{ textAlign: 'center', padding: '2rem 0' }}>
                 <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
@@ -135,7 +135,7 @@ export default function DashboardCommunityPage() {
                     type="file" 
                     accept="image/*"
                     onChange={(e) => setFile(e.target.files?.[0] || null)}
-                    style={{ width: '100%', padding: '0.75rem', border: '1px solid #cbd5e1', borderRadius: '4px' }}
+                    style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '4px' }}
                   />
                   <p style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '0.25rem' }}>or paste an image URL below if you prefer.</p>
                 </div>
@@ -147,7 +147,7 @@ export default function DashboardCommunityPage() {
                     value={imageUrl} 
                     onChange={e => setImageUrl(e.target.value)}
                     placeholder="https://example.com/my-fit.jpg" 
-                    style={{ width: '100%', padding: '0.75rem', border: '1px solid #cbd5e1', borderRadius: '4px' }}
+                    style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '4px' }}
                   />
                 </div>
 
@@ -158,7 +158,7 @@ export default function DashboardCommunityPage() {
                     onChange={e => setCaption(e.target.value)}
                     placeholder="Tell us about this look..." 
                     rows={4}
-                    style={{ width: '100%', padding: '0.75rem', border: '1px solid #cbd5e1', borderRadius: '4px', resize: 'vertical' }}
+                    style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '4px', resize: 'vertical' }}
                     required
                   />
                 </div>

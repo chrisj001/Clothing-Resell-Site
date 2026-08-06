@@ -190,7 +190,7 @@ export default function AdminDiscountsPage() {
                   onChange={(e) => setCode(e.target.value.toUpperCase())}
                   placeholder="e.g. SUMMER20"
                   required
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }}
                 />
               </div>
 
@@ -200,7 +200,7 @@ export default function AdminDiscountsPage() {
                   <select 
                     value={type} 
                     onChange={(e) => setType(e.target.value)}
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }}
                   >
                     <option value="percentage">Percentage (%)</option>
                     <option value="fixed">Fixed Amount (£)</option>
@@ -216,7 +216,7 @@ export default function AdminDiscountsPage() {
                     onChange={(e) => setValue(e.target.value)}
                     placeholder={type === 'percentage' ? "e.g. 15" : "e.g. 10.00"}
                     required
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }}
                   />
                 </div>
               </div>
@@ -226,7 +226,7 @@ export default function AdminDiscountsPage() {
                 <select 
                   value={usageType} 
                   onChange={(e) => setUsageType(e.target.value)}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }}
                 >
                   <option value="unlimited">Unlimited Uses</option>
                   <option value="onetime">One-Time Use Only</option>
@@ -244,7 +244,7 @@ export default function AdminDiscountsPage() {
                     onChange={(e) => setMaxUses(e.target.value)}
                     placeholder="e.g. 50"
                     required
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #d1d5db' }}
                   />
                 </div>
               )}
@@ -304,7 +304,7 @@ export default function AdminDiscountsPage() {
                       <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
                         <button 
                           onClick={() => handleToggleActive(c.id, c.is_active)}
-                          style={{ padding: '0.4rem 0.75rem', borderRadius: '4px', border: '1px solid #cbd5e1', backgroundColor: '#f8fafc', cursor: 'pointer', fontSize: '0.85rem' }}
+                          style={{ padding: '0.4rem 0.75rem', borderRadius: '4px', border: '1px solid #d1d5db', backgroundColor: '#f8fafc', cursor: 'pointer', fontSize: '0.85rem' }}
                         >
                           {c.is_active ? 'Deactivate' : 'Activate'}
                         </button>

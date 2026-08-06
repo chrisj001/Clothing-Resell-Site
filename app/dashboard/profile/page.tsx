@@ -177,7 +177,7 @@ export default function ProfilePage() {
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem', marginTop: '2rem' }}>
             
             {/* Personal Details */}
-            <div style={{ backgroundColor: '#cbd5e1', padding: '2rem', borderRadius: '8px', color: '#1e293b' }}>
+            <div style={{ backgroundColor: '#d1d5db', padding: '2rem', borderRadius: '8px', color: '#1e293b' }}>
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid #94a3b8', paddingBottom: '0.5rem' }}>Personal Information</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -198,7 +198,7 @@ export default function ProfilePage() {
             </div>
 
             {/* My Sizes */}
-            <div style={{ backgroundColor: '#cbd5e1', padding: '2rem', borderRadius: '8px', color: '#1e293b' }}>
+            <div style={{ backgroundColor: '#d1d5db', padding: '2rem', borderRadius: '8px', color: '#1e293b' }}>
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid #94a3b8', paddingBottom: '0.5rem' }}>My Sizes</h3>
               <p style={{ fontSize: '0.9rem', color: '#475569', marginBottom: '1rem' }}>We'll use this to show you products that fit perfectly.</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
@@ -236,7 +236,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Style Preferences */}
-            <div style={{ backgroundColor: '#cbd5e1', padding: '2rem', borderRadius: '8px', color: '#1e293b' }}>
+            <div style={{ backgroundColor: '#d1d5db', padding: '2rem', borderRadius: '8px', color: '#1e293b' }}>
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid #94a3b8', paddingBottom: '0.5rem' }}>Style Preferences</h3>
               <p style={{ fontSize: '0.9rem', color: '#475569', marginBottom: '1.5rem' }}>Select your favorite eras and brands to get personalized recommendations on the homepage!</p>
               
@@ -282,7 +282,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Shipping Address */}
-            <div style={{ backgroundColor: '#cbd5e1', padding: '2rem', borderRadius: '8px', color: '#1e293b' }}>
+            <div style={{ backgroundColor: '#d1d5db', padding: '2rem', borderRadius: '8px', color: '#1e293b' }}>
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid #94a3b8', paddingBottom: '0.5rem' }}>Shipping Address</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '600px' }}>

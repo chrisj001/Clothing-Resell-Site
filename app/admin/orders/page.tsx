@@ -114,7 +114,7 @@ export default function AdminOrdersPage() {
 
           <div style={{ marginTop: '2rem' }}>
             {orders.length === 0 ? (
-              <div style={{ padding: '3rem', backgroundColor: 'white', borderRadius: '8px', textAlign: 'center', border: '1px dashed #cbd5e1' }}>
+              <div style={{ padding: '3rem', backgroundColor: 'white', borderRadius: '8px', textAlign: 'center', border: '1px dashed #d1d5db' }}>
                 <h2 style={{ color: '#1e293b', marginBottom: '1rem' }}>No Orders Yet</h2>
                 <p style={{ color: '#475569' }}>When customers check out, their orders will appear here.</p>
               </div>
@@ -135,7 +135,7 @@ export default function AdminOrdersPage() {
                           <select 
                             value={order.status}
                             onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                            style={{ padding: '0.25rem 0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', backgroundColor: order.status === 'paid' ? '#eafaf1' : '#f8fafc' }}
+                            style={{ padding: '0.25rem 0.5rem', borderRadius: '4px', border: '1px solid #d1d5db', backgroundColor: order.status === 'paid' ? '#eafaf1' : '#f8fafc' }}
                           >
                             <option value="pending">Pending</option>
                             <option value="paid">Paid (Unfulfilled)</option>

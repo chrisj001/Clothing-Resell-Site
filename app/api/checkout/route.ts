@@ -29,13 +29,15 @@ export async function POST(req: Request) {
 
     const supabaseServer = await createServerClient();
     const { data: { session: authSession } } = await supabaseServer.auth.getSession();
-    if (!authSession) {
-      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
-    }
 
     const body = await req.json();
     const { cartItems, discountCode, guestEmail } = body;
-    const userId = authSession.user.id;
+    const userId = authSession?.user?.id;
+    const userEmail = authSession?.user?.email;
+
+    if (!userId && !guestEmail) {
+      return NextResponse.json({ error: 'An email address is required for checkout' }, { status: 400 });
+    }
 
     if (!cartItems || cartItems.length === 0) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 });
@@ -84,6 +86,16 @@ export async function POST(req: Request) {
       
       if (fetchedCode.max_uses !== null && fetchedCode.current_uses >= fetchedCode.max_uses) {
         return NextResponse.json({ error: 'This discount code has reached its usage limit' }, { status: 400 });
+      }
+
+      // Security check: If the code is tied to a specific user, ensure they match
+      if (fetchedCode.allowed_user_id) {
+        if (!userId) {
+           return NextResponse.json({ error: 'You must be logged in to use this discount code' }, { status: 401 });
+        }
+        if (fetchedCode.allowed_user_id !== userId) {
+           return NextResponse.json({ error: 'This discount code is not valid for your account' }, { status: 403 });
+        }
       }
 
       if (fetchedCode.discount_type === 'percentage') {
@@ -225,7 +237,7 @@ export async function POST(req: Request) {
       payment_method_types: ['card'],
       line_items,
       mode: 'payment',
-      customer_email: userId ? undefined : guestEmail,
+      customer_email: userId ? userEmail : guestEmail,
       shipping_address_collection: {
         allowed_countries: ['GB', 'US', 'CA', 'AU', 'IE'], // Allowed shipping countries
       },

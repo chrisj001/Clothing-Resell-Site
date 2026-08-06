@@ -67,7 +67,7 @@ export function EarlyAccessBadge({ createdAt, userTier, exempt }: EarlyAccessBad
       left: '12px',
       backgroundColor: isGold ? '#fef08a' : '#f8fafc',
       color: isGold ? '#854d0e' : '#475569',
-      border: isGold ? '1px solid #eab308' : '1px solid #cbd5e1',
+      border: isGold ? '1px solid #eab308' : '1px solid #d1d5db',
       padding: '4px 8px',
       borderRadius: '4px',
       fontSize: '0.75rem',

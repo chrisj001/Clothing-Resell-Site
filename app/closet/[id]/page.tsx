@@ -47,7 +47,7 @@ export default async function ClosetPage({ params }: { params: { id: string } })
       <h2 style={{ fontSize: '1.5rem', marginBottom: '2rem', borderBottom: '2px solid #e2e8f0', paddingBottom: '0.5rem' }}>Available Items</h2>
       
       {!products || products.length === 0 ? (
-        <div style={{ padding: '4rem', textAlign: 'center', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px dashed #cbd5e1', color: '#64748b' }}>
+        <div style={{ padding: '4rem', textAlign: 'center', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px dashed #d1d5db', color: '#64748b' }}>
           This closet is currently empty. Check back later!
         </div>
       ) : (

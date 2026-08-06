@@ -198,7 +198,7 @@ export default function SellerPortal() {
                     onClick={() => setIsSingleItem(true)} 
                     style={{ 
                       flex: 1, padding: '1rem', 
-                      border: isSingleItem ? '2px solid #0f172a' : '1px solid #cbd5e1', 
+                      border: isSingleItem ? '2px solid #0f172a' : '1px solid #d1d5db', 
                       borderRadius: '4px', 
                       backgroundColor: isSingleItem ? '#f8fafc' : 'white', 
                       fontWeight: isSingleItem ? 600 : 400,
@@ -213,7 +213,7 @@ export default function SellerPortal() {
                     onClick={() => setIsSingleItem(false)} 
                     style={{ 
                       flex: 1, padding: '1rem', 
-                      border: !isSingleItem ? '2px solid #0f172a' : '1px solid #cbd5e1', 
+                      border: !isSingleItem ? '2px solid #0f172a' : '1px solid #d1d5db', 
                       borderRadius: '4px', 
                       backgroundColor: !isSingleItem ? '#f8fafc' : 'white', 
                       fontWeight: !isSingleItem ? 600 : 400,
@@ -227,7 +227,7 @@ export default function SellerPortal() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   <label htmlFor="imageFile" style={{ fontWeight: 600, color: '#0f172a' }}>Product Images * (Up to 10 images)</label>
-                  <input type="file" id="imageFile" accept="image/*" multiple onChange={handleFileChange} required style={{ color: '#0f172a', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', backgroundColor: 'white' }} />
+                  <input type="file" id="imageFile" accept="image/*" multiple onChange={handleFileChange} required style={{ color: '#0f172a', padding: '0.5rem', borderRadius: '4px', border: '1px solid #d1d5db', backgroundColor: 'white' }} />
                   
                   {imageFiles.length > 0 && (
                     <div style={{ marginTop: '1rem', padding: '1rem', border: '1px solid #e2e8f0', borderRadius: '4px', backgroundColor: '#f1f5f9' }}>
@@ -358,7 +358,7 @@ export default function SellerPortal() {
             <div>
               <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>Your Closet Items</h2>
               {products.length === 0 ? (
-                <div style={{ padding: '2rem', backgroundColor: 'white', border: '1px dashed #cbd5e1', borderRadius: '8px', textAlign: 'center', color: '#64748b' }}>
+                <div style={{ padding: '2rem', backgroundColor: 'white', border: '1px dashed #d1d5db', borderRadius: '8px', textAlign: 'center', color: '#64748b' }}>
                   You haven't submitted any items yet.
                 </div>
               ) : (

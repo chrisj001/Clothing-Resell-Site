@@ -76,14 +76,14 @@ export default function ReferralsPage() {
           </div>
 
           {/* Referral Link Card */}
-          <div style={{ backgroundColor: '#cbd5e1', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '2rem' }}>
+          <div style={{ backgroundColor: '#d1d5db', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '2rem' }}>
             <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: '#0f172a' }}>Your Unique Referral Link</h2>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
               <input 
                 type="text" 
                 readOnly 
                 value={referralLink} 
-                style={{ flex: 1, padding: '1rem', backgroundColor: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '4px', color: '#334155', fontWeight: 500, fontSize: '1rem' }}
+                style={{ flex: 1, padding: '1rem', backgroundColor: '#f8fafc', border: '1px solid #d1d5db', borderRadius: '4px', color: '#334155', fontWeight: 500, fontSize: '1rem' }}
               />
               <button onClick={copyToClipboard} className="btn-primary" style={{ padding: '1rem 2rem', whiteSpace: 'nowrap' }}>
                 {copied ? "Copied! ✓" : "Copy Link"}
@@ -104,11 +104,11 @@ export default function ReferralsPage() {
           </div>
 
           {/* Referrals List */}
-          <div style={{ backgroundColor: '#cbd5e1', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <div style={{ backgroundColor: '#d1d5db', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
             <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', color: '#0f172a' }}>Your Referrals ({referrals.length})</h2>
             
             {referrals.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#f8fafc', borderRadius: '4px', border: '1px dashed #cbd5e1' }}>
+              <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#f8fafc', borderRadius: '4px', border: '1px dashed #d1d5db' }}>
                 <p style={{ color: '#64748b', margin: 0 }}>You haven't referred anyone yet. Share your link to start earning!</p>
               </div>
             ) : (

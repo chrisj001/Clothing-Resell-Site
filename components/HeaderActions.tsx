@@ -88,7 +88,7 @@ export function HeaderActions() {
           onClick={handleLogout}
           style={{
             background: 'none',
-            border: '1px solid #cbd5e1',
+            border: '1px solid #d1d5db',
             fontSize: '0.85rem',
             fontWeight: 600,
             color: '#475569',

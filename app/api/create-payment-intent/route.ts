@@ -26,13 +26,15 @@ export async function POST(req: Request) {
 
     const supabaseServer = await createServerClient();
     const { data: { session } } = await supabaseServer.auth.getSession();
-    if (!session) {
-      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
-    }
 
     const body = await req.json();
     const { cartItems, discountCode, redeemedPoints = 0, guestEmail } = body;
-    const userId = session.user.id;
+    const userId = session?.user?.id;
+    const userEmail = session?.user?.email;
+
+    if (!userId && !guestEmail) {
+      return NextResponse.json({ error: 'An email address is required for checkout' }, { status: 400 });
+    }
 
     if (!cartItems || cartItems.length === 0) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 });
@@ -124,6 +126,7 @@ export async function POST(req: Request) {
       automatic_payment_methods: {
         enabled: true,
       },
+      receipt_email: userId ? userEmail : guestEmail,
       metadata: {
         loyalty_points: loyaltyPointsEarned.toString(),
         redeemed_points: redeemedPoints.toString(),

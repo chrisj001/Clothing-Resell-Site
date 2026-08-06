@@ -133,7 +133,7 @@ function SearchResultsContent() {
             id="sort" 
             value={sortOrder} 
             onChange={(e) => setSortOrder(e.target.value)}
-            style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', outline: 'none' }}
+            style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #d1d5db', outline: 'none' }}
           >
             <option value="newest">Newest Arrivals</option>
             <option value="price_asc">Price: Low to High</option>

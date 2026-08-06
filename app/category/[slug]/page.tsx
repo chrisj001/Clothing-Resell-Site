@@ -155,7 +155,7 @@ export default async function CategoryPage({
               ))}
               
               {displayProducts.length === 0 && (
-                <div style={{ gridColumn: '1 / -1', padding: '4rem 2rem', textAlign: 'center', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px dashed #cbd5e1' }}>
+                <div style={{ gridColumn: '1 / -1', padding: '4rem 2rem', textAlign: 'center', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px dashed #d1d5db' }}>
                   <h3 style={{ color: '#334155', marginBottom: '0.5rem' }}>No products match your filters</h3>
                   <p style={{ color: '#64748b' }}>Try removing some filters to see more results.</p>
                 </div>

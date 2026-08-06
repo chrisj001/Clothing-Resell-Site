@@ -67,7 +67,7 @@ export default function LoyaltyDashboard() {
 
   const currentTierBg = currentTier === 'Gold' ? '#fef08a' : (currentTier === 'Silver' ? '#f1f5f9' : '#ffedd5');
   const currentTierText = currentTier === 'Gold' ? '#854d0e' : (currentTier === 'Silver' ? '#334155' : '#9a3412');
-  const currentTierBorder = currentTier === 'Gold' ? '#facc15' : (currentTier === 'Silver' ? '#cbd5e1' : '#fdba74');
+  const currentTierBorder = currentTier === 'Gold' ? '#facc15' : (currentTier === 'Silver' ? '#d1d5db' : '#fdba74');
   const currentTierBadgeBg = currentTier === 'Gold' ? '#fde047' : (currentTier === 'Silver' ? '#e2e8f0' : '#fed7aa');
 
   return (
@@ -142,7 +142,7 @@ export default function LoyaltyDashboard() {
             </div>
           </div>
 
-          <div style={{ backgroundColor: '#cbd5e1', padding: '2.5rem', borderRadius: '12px', border: '1px solid #94a3b8' }}>
+          <div style={{ backgroundColor: '#d1d5db', padding: '2.5rem', borderRadius: '12px', border: '1px solid #94a3b8' }}>
             <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#0f172a' }}>How to Earn Points</h2>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
@@ -178,7 +178,7 @@ export default function LoyaltyDashboard() {
                   <li>Redeem points for cash discounts at checkout</li>
                 </ul>
               </div>
-                            <div style={{ padding: '1.5rem', backgroundColor: '#f1f5f9', borderRadius: '8px', border: '1px solid #cbd5e1' }}>
+                            <div style={{ padding: '1.5rem', backgroundColor: '#f1f5f9', borderRadius: '8px', border: '1px solid #d1d5db' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h3 style={{ margin: 0, color: '#334155', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <span style={{ display: 'inline-block', width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#64748b' }}></span>

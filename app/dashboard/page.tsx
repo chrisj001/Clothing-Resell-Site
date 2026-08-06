@@ -103,7 +103,7 @@ export default function CustomerDashboard() {
 
   const currentTierBg = currentTier === 'Gold' ? '#fef08a' : (currentTier === 'Silver' ? '#f1f5f9' : '#ffedd5');
   const currentTierText = currentTier === 'Gold' ? '#854d0e' : (currentTier === 'Silver' ? '#334155' : '#9a3412');
-  const currentTierBorder = currentTier === 'Gold' ? '#facc15' : (currentTier === 'Silver' ? '#cbd5e1' : '#fdba74');
+  const currentTierBorder = currentTier === 'Gold' ? '#facc15' : (currentTier === 'Silver' ? '#d1d5db' : '#fdba74');
 
   return (
     <div className="container">
@@ -179,14 +179,14 @@ export default function CustomerDashboard() {
 
           <h2>Recent Orders</h2>
           {orders.length === 0 ? (
-            <div style={{ padding: '3rem', backgroundColor: '#cbd5e1', borderRadius: '8px', textAlign: 'center', border: '1px dashed #94a3b8' }}>
+            <div style={{ padding: '3rem', backgroundColor: '#d1d5db', borderRadius: '8px', textAlign: 'center', border: '1px dashed #94a3b8' }}>
               <h3 style={{ color: '#1e293b', marginBottom: '1rem' }}>No Orders Yet</h3>
               <p style={{ color: '#475569' }}>You haven't placed any orders yet. Start shopping!</p>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {orders.map(order => (
-                <div key={order.id} style={{ padding: '1.5rem', backgroundColor: '#cbd5e1', borderRadius: '8px', border: '1px solid #94a3b8', color: '#1e293b' }}>
+                <div key={order.id} style={{ padding: '1.5rem', backgroundColor: '#d1d5db', borderRadius: '8px', border: '1px solid #94a3b8', color: '#1e293b' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                     <div>
                       <strong>Order #{order.order_number || order.id.split('-')[0]}</strong>
