@@ -36,5 +36,9 @@ export default async function AdminLayout({
     redirect('/dashboard');
   }
 
-  return <>{children}</>;
+  return (
+    <div style={{ backgroundColor: '#5c636f', minHeight: 'calc(100vh - 80px - 100px)' }}>
+      {children}
+    </div>
+  );
 }
