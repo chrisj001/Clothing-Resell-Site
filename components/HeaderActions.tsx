@@ -88,18 +88,18 @@ export function HeaderActions() {
           onClick={handleLogout}
           style={{
             background: 'none',
-            border: '1px solid #d1d5db',
+            border: '1px solid var(--color-white)',
             fontSize: '0.85rem',
             fontWeight: 600,
-            color: '#475569',
+            color: 'var(--color-white)',
             cursor: 'pointer',
             padding: '0.3rem 0.6rem',
             borderRadius: '4px',
             transition: 'all 0.2s ease',
             marginLeft: '0.5rem'
           }}
-          onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#0f172a'; }}
-          onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#475569'; }}
+          onMouseOver={(e) => { e.currentTarget.style.backgroundColor = 'var(--color-white)'; e.currentTarget.style.color = 'var(--color-teal-dark)'; }}
+          onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--color-white)'; }}
           title="Log out"
         >
           Logout

@@ -1,6 +1,6 @@
 .header {
-  background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-gray);
+  background-color: var(--color-teal-dark);
+  border-bottom: 1px solid var(--color-teal-dark);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -17,7 +17,7 @@
   font-family: var(--font-heading);
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-teal-dark);
+  color: var(--color-white);
 }
 
 .navLinks {
@@ -34,15 +34,16 @@
 .navLinks a {
   font-size: 1rem;
   font-weight: 500;
+  color: var(--color-white);
   transition: color 0.2s;
 }
 
 .navLinks a:hover {
-  color: var(--color-teal);
+  color: var(--color-beige);
 }
 
 .saleLink {
-  color: #d9534f !important;
+  color: #ff6b6b !important;
 }
 
 .actions {
