@@ -1,11 +1,9 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
+    request: { headers: request.headers },
   })
 
   const supabase = createServerClient(
@@ -17,13 +15,11 @@ export async function proxy(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request: { headers: request.headers },
           })
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
@@ -33,35 +29,45 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  // Verify the session with a round-trip to Supabase Auth (cryptographic verification)
-  // getUser() is preferred over getSession() in middleware — getSession() only reads
-  // the cookie without validating the JWT, so a tampered token could pass.
-  const { data: { user } } = await supabase.auth.getUser()
+  // ── Step 1: Cryptographically verify the session.
+  // getUser() makes a round-trip to Supabase Auth to validate the signed JWT.
+  // getSession() must NOT be used here — it reads the cookie without server
+  // verification, so a tampered token could bypass auth checks.
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   const pathname = request.nextUrl.pathname
 
-  // Protected routes that require authentication
-  const authRoutes = ['/dashboard', '/admin']
-  const isAuthRoute = authRoutes.some(route => pathname.startsWith(route))
+  // ── Step 2: Require authentication for all protected routes.
+  const protectedRoutes: string[] = ['/dashboard', '/admin']
+  const isProtected = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  )
 
-  if (isAuthRoute && !user) {
-    // Not logged in — redirect to login
+  if (isProtected && !user) {
     const redirectUrl = request.nextUrl.clone()
     redirectUrl.pathname = '/login'
     redirectUrl.searchParams.set('redirect', pathname)
     return NextResponse.redirect(redirectUrl)
   }
 
-  // Admin routes require admin role
+  // ── Step 3: Require admin role for /admin/* routes.
+  //
+  // The role is read from user.app_metadata — a field embedded in the signed
+  // JWT that can ONLY be written by the Supabase service-role key (Admin API).
+  // This means:
+  //   ✅ Zero DB queries — no extra network latency on every admin page load
+  //   ✅ Cannot be forged by a client (JWT is cryptographically signed)
+  //   ⚠️  Role changes propagate after the next token refresh (default ≤1h TTL)
+  //
+  // Previously this block made a second database query to profiles.role on
+  // every single /admin/* request — that pattern has been removed.
   if (pathname.startsWith('/admin') && user) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
+    const role = user.app_metadata?.role as string | undefined
 
-    if (!profile || profile.role !== 'admin') {
-      // Not an admin — redirect to customer dashboard
+    if (role !== 'admin') {
+      // Authenticated but not an admin — redirect safely to customer dashboard
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/dashboard'
       return NextResponse.redirect(redirectUrl)
@@ -72,8 +78,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/admin/:path*',
-    '/dashboard/:path*',
-  ],
+  matcher: ['/admin/:path*', '/dashboard/:path*'],
 }
