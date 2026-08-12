@@ -48,21 +48,45 @@ export async function POST(req: Request) {
       const redeemedPoints = parseInt(metadata.redeemed_points || '0', 10);
       const appliedDiscountId = metadata.applied_discount_id || null;
       
-      let items = [];
-      try {
-        if (metadata.items && metadata.items !== 'too_large') {
-          items = JSON.parse(metadata.items);
+      // ── Retrieve items — prefer the Supabase cache over Stripe metadata ──────
+      // Stripe metadata values are capped at 500 chars. Large carts store items in
+      // checkout_item_cache before session creation; the UUID is passed as
+      // items_cache_id. Fall back to inline metadata for small/legacy carts.
+      let items: any[] = [];
+      const itemsCacheId = metadata.items_cache_id || null;
+      if (itemsCacheId) {
+        const { data: cachedItems } = await supabaseAdmin
+          .from('checkout_item_cache')
+          .select('items')
+          .eq('id', itemsCacheId)
+          .single();
+        if (cachedItems?.items) {
+          items = cachedItems.items;
+          // Delete cache entry now that we have the data
+          await supabaseAdmin.from('checkout_item_cache').delete().eq('id', itemsCacheId);
+        } else {
+          console.error(`[webhook] Cache miss for items_cache_id: ${itemsCacheId}`);
         }
-      } catch (e) {
-        console.error("Failed to parse items from metadata");
+      } else {
+        try {
+          if (metadata.items && metadata.items !== 'too_large') {
+            items = JSON.parse(metadata.items);
+          }
+        } catch (e) {
+          console.error('[webhook] Failed to parse items from metadata');
+        }
       }
 
-      // Check if order already exists to prevent duplicates if both checkout.session and payment_intent fire
+      // Idempotency guard — skip if this session was already fulfilled
       const { data: existingOrder } = await supabaseAdmin.from('orders').select('id').eq('stripe_session_id', sessionOrIntent.id).single();
       if (existingOrder) {
         console.log(`Order already exists for ${sessionOrIntent.id}, skipping.`);
         return NextResponse.json({ received: true });
       }
+
+      // Guest orders receive a one-time UUID token so the guest can look up
+      // their order via /api/orders/guest without creating an account.
+      const guestToken: string | null = userId ? null : crypto.randomUUID();
 
       // Create the order in Supabase
       const { data: order, error: orderError } = await supabaseAdmin
@@ -75,7 +99,8 @@ export async function POST(req: Request) {
           shipping_address: shippingDetails,
           customer_email: guestEmail,
           items: items,
-          loyalty_points_earned: loyaltyPoints
+          loyalty_points_earned: loyaltyPoints,
+          guest_token: guestToken,
         })
         .select()
         .single();
@@ -124,11 +149,15 @@ export async function POST(req: Request) {
         });
       }
 
-      // Increment discount code usage if one was applied
+      // Atomically increment discount usage — single SQL UPDATE with a WHERE guard
+      // eliminates the read-then-write race condition that allowed codes to be
+      // used more times than their max_uses limit under concurrent load.
       if (appliedDiscountId) {
-        const { data: currentCode } = await supabaseAdmin.from('discount_codes').select('current_uses').eq('id', appliedDiscountId).single();
-        if (currentCode) {
-          await supabaseAdmin.from('discount_codes').update({ current_uses: (currentCode.current_uses || 0) + 1 }).eq('id', appliedDiscountId);
+        const { data: incremented } = await supabaseAdmin.rpc('increment_discount_uses', {
+          p_discount_id: appliedDiscountId,
+        });
+        if (!incremented) {
+          console.warn(`[webhook] Discount ${appliedDiscountId} limit already reached at fulfilment time.`);
         }
       }
 

@@ -16,15 +16,42 @@ export async function POST(req: Request) {
     }
 
     const supabaseServer = await createServerClient();
-    const { data: { session } } = await supabaseServer.auth.getSession();
-    if (!session) {
+    let user = null;
+    try {
+      const { data } = await supabaseServer.auth.getUser();
+      user = data.user;
+    } catch (authError) {
+      console.error('Supabase auth error in reviews:', authError);
+      return NextResponse.json({ error: 'Authentication service unavailable. Please try again.' }, { status: 503 });
+    }
+
+    if (!user) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     const { productId, customerId, rating, comment } = await req.json();
 
-    if (customerId !== session.user.id) {
+    if (customerId !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
+    // Verify the reviewer actually purchased this product.
+    // orders.items is a JSONB array — @> checks if any element has a matching id.
+    // Prevents review bombing and fake social proof on products never bought.
+    const { data: purchase } = await supabaseAdmin
+      .from('orders')
+      .select('id')
+      .eq('customer_id', user.id)
+      .eq('status', 'paid')
+      .contains('items', [{ id: productId }])
+      .limit(1)
+      .maybeSingle();
+
+    if (!purchase) {
+      return NextResponse.json(
+        { error: 'You can only review products you have purchased' },
+        { status: 403 }
+      );
     }
 
     if (!productId || !customerId || !rating) {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 import { createClient as createServerClient } from '../../../lib/supabase-server';
-import { apiRateLimit, getClientIp } from '../../../lib/rate-limit';
+import { apiRateLimit, checkoutRateLimit, getClientIp } from '../../../lib/rate-limit';
 
 // Initialize Stripe with the secret key from environment variables
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
@@ -28,12 +28,26 @@ export async function POST(req: Request) {
     }
 
     const supabaseServer = await createServerClient();
-    const { data: { session: authSession } } = await supabaseServer.auth.getSession();
+    let user = null;
+    try {
+      const { data } = await supabaseServer.auth.getUser();
+      user = data.user;
+    } catch (authError) {
+      console.error('Supabase auth error in checkout:', authError);
+      return NextResponse.json({ error: 'Authentication service unavailable. Please try again.' }, { status: 503 });
+    }
+
+    // Strict rate limit to prevent carding attacks (by user ID or IP if guest)
+    const identifier = user?.id || ip;
+    const { success: checkoutSuccess } = await checkoutRateLimit.limit(identifier);
+    if (!checkoutSuccess) {
+      return NextResponse.json({ error: 'Too many checkout attempts. Please try again later.' }, { status: 429 });
+    }
 
     const body = await req.json();
     const { cartItems, discountCode, guestEmail } = body;
-    const userId = authSession?.user?.id;
-    const userEmail = authSession?.user?.email;
+    const userId = user?.id;
+    const userEmail = user?.email;
 
     if (!userId && !guestEmail) {
       return NextResponse.json({ error: 'An email address is required for checkout' }, { status: 400 });
@@ -144,6 +158,10 @@ export async function POST(req: Request) {
       
       const mockOrderItems = cartItems.map((i: any) => ({ ...i, price: priceMap[i.id] }));
 
+      // Generate a guest_token for anonymous orders so the guest can look up
+      // their order via /api/orders/guest without needing an account.
+      const guestToken: string | null = !userId ? crypto.randomUUID() : null;
+
       // Create mock order
       const { data: order, error: orderError } = await supabaseAdmin
         .from('orders')
@@ -155,7 +173,8 @@ export async function POST(req: Request) {
           shipping_address: mockShippingAddress,
           customer_email: userId ? null : guestEmail,
           items: mockOrderItems,
-          loyalty_points_earned: loyaltyPointsEarned
+          loyalty_points_earned: loyaltyPointsEarned,
+          guest_token: guestToken,
         })
         .select()
         .single();
@@ -180,17 +199,26 @@ export async function POST(req: Request) {
         });
       }
 
-      // Increment discount code usage if one was applied
+      // Atomically increment discount usage — prevents race condition where two
+      // concurrent checkouts both pass the max_uses check before either increments.
       if (appliedDiscountId) {
-        const { data: currentCode } = await supabaseAdmin.from('discount_codes').select('current_uses').eq('id', appliedDiscountId).single();
-        if (currentCode) {
-          await supabaseAdmin.from('discount_codes').update({ current_uses: (currentCode.current_uses || 0) + 1 }).eq('id', appliedDiscountId);
+        const { data: incremented } = await supabaseAdmin.rpc('increment_discount_uses', {
+          p_discount_id: appliedDiscountId,
+        });
+        if (!incremented) {
+          await supabaseAdmin.from('orders').delete().eq('id', order.id);
+          return NextResponse.json({ error: 'Discount code has reached its usage limit' }, { status: 400 });
         }
       }
 
-      return NextResponse.json({ 
-        url: `/checkout/success?order_number=${order.order_number}`,
-        message: 'Mock checkout successful (Stripe keys not set)'
+      // Include guest_token in the success URL so the guest can retrieve their order
+      const successUrl = guestToken
+        ? `/checkout/success?order_number=${order.order_number}&guest_token=${guestToken}`
+        : `/checkout/success?order_number=${order.order_number}`;
+
+      return NextResponse.json({
+        url: successUrl,
+        message: 'Mock checkout successful (Stripe keys not set)',
       });
     }
 
@@ -233,22 +261,47 @@ export async function POST(req: Request) {
       size: i.size
     })));
 
+    // Store items in Supabase before creating the Stripe session.
+    // Stripe caps metadata values at 500 chars — large carts silently become
+    // 'too_large', causing the webhook to skip inventory updates entirely.
+    let itemsCacheId: string | null = null;
+    try {
+      const { data: cached } = await supabaseAdmin
+        .from('checkout_item_cache')
+        .insert({
+          items: cartItems.map((i: any) => ({
+            id: i.id,
+            name: i.name,
+            price: priceMap[i.id],
+            quantity: i.quantity,
+            size: i.size,
+          })),
+        })
+        .select('id')
+        .single();
+      itemsCacheId = cached?.id ?? null;
+    } catch (cacheErr) {
+      console.error('[checkout] Failed to cache items — falling back to inline metadata:', cacheErr);
+    }
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items,
       mode: 'payment',
       customer_email: userId ? userEmail : guestEmail,
       shipping_address_collection: {
-        allowed_countries: ['GB', 'US', 'CA', 'AU', 'IE'], // Allowed shipping countries
+        allowed_countries: ['GB', 'US', 'CA', 'AU', 'IE'],
       },
       client_reference_id: userId || 'guest',
       discounts: stripeCouponId ? [{ coupon: stripeCouponId }] : undefined,
       metadata: {
         loyalty_points: loyaltyPointsEarned.toString(),
-        items: orderItemsJson.length > 500 ? 'too_large' : orderItemsJson, // Stripe has 500 char metadata limit
+        items_cache_id: itemsCacheId || '',
+        // Inline fallback for small carts or if cache insert failed
+        items: itemsCacheId ? '' : (orderItemsJson.length > 500 ? 'too_large' : orderItemsJson),
         user_id: userId || '',
         guest_email: guestEmail || '',
-        applied_discount_id: appliedDiscountId || ''
+        applied_discount_id: appliedDiscountId || '',
       },
       success_url: `${req.headers.get('origin')}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.get('origin')}/?cart=open`,

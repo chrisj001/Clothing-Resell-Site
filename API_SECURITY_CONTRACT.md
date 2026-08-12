@@ -37,17 +37,25 @@ export async function POST(req: Request) {
 
   // 2. Authenticate — BEFORE parsing the body
   const supabaseServer = await createServerClient();
-  const { data: { session } } = await supabaseServer.auth.getSession();
-  if (!session) {
+  let user = null;
+  try {
+    const { data } = await supabaseServer.auth.getUser();
+    user = data.user;
+  } catch (authError) {
+    console.error('Supabase auth error:', authError);
+    return NextResponse.json({ error: 'Authentication service unavailable' }, { status: 503 });
+  }
+
+  if (!user) {
     return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
   }
 
-  // 3. Parse body — userId comes from session, not from body
+  // 3. Parse body — userId comes from the verified user object, not from body
   const body = await req.json();
-  const userId = session.user.id;  // ← NEVER from body
+  const userId = user.id;  // ← NEVER from body
 
   // 4. If the body includes a user-supplied ID (e.g. customerId), verify it
-  if (body.customerId !== session.user.id) {
+  if (body.customerId !== user.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
   }
 }
@@ -58,7 +66,8 @@ export async function POST(req: Request) {
 | Rule | Why |
 |---|---|
 | **Never read `userId` from the request body** | Client-supplied IDs enable IDOR attacks |
-| **Always derive user identity from `session.user.id`** | Server-side session is cryptographically verified |
+| **Always derive user identity from `user.id` via `getUser()`** | `getUser()` makes a secure trip to verify the token, preventing forged cookies |
+| **Wrap `getUser()` in a try-catch block** | Gracefully handles network timeouts and API downtime (returning 503) |
 | **Auth check BEFORE `req.json()`** | Prevents unnecessary body parsing for unauthenticated requests |
 | **Use `supabaseAdmin` (service role) for DB writes** | Bypasses RLS for trusted server-side operations |
 | **Use `createServerClient()` for auth checks** | Cookie-based, server-side, cannot be spoofed by request body |

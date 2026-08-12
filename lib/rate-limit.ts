@@ -31,6 +31,17 @@ export const strictRateLimit = new Ratelimit({
 });
 
 /**
+ * Checkout rate limiter to prevent carding attacks.
+ * Allows 5 requests per 10 minutes per User ID (or IP for guests).
+ */
+export const checkoutRateLimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, '10 m'),
+  analytics: true,
+  prefix: 'ratelimit:checkout',
+});
+
+/**
  * Webhook rate limiter (more generous since Stripe may batch events).
  * Allows 30 requests per 10 seconds per IP.
  */
